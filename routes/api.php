@@ -22,5 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/auth', [\App\Http\Controllers\UserController::class, 'create']);
+Route::get('/get-token', [\App\Http\Controllers\UserController::class, 'confirm']);
+
 Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
 Route::get('/product', [\App\Http\Controllers\ProductController::class, 'show']);

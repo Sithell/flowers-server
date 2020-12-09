@@ -18,6 +18,7 @@ class UserController extends Controller
         $code = random_int(1111, 9999);
         $user->verification_code = $code;
         $user->save();
+        // TODO send verification code via SMS
     }
 
     public function confirm(Request $request) {
@@ -27,6 +28,7 @@ class UserController extends Controller
         if ($user->verification_code == $code) {
             $token = Str::random(60);
             $user->api_token = $token;
+            $user->verification_code = null;
             $user->save();
             return $token;
         }

@@ -20,7 +20,6 @@ class OrderController extends Controller
         $order->contact_phone = $request->input('contact_phone');
         $order->deliver_by = $request->input('deliver_by');
 
-
         $order->save();
 
         $price = 0;
@@ -31,6 +30,7 @@ class OrderController extends Controller
                 return "Sorry, ".$product->name." is out of stock";
             }
             $product->left_in_stock -= $order_item['quantity'];
+            $product->times_bought++;
             $product->save();
 
             $price += $product->price;

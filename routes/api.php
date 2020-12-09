@@ -30,3 +30,6 @@ Route::get('/product', [\App\Http\Controllers\ProductController::class, 'show'])
 
 Route::post('/order', [\App\Http\Controllers\OrderController::class, 'create'])
     ->middleware('auth:api');
+
+Route::post('/add-to-favourites', [\App\Http\Controllers\FavouriteController::class, 'create'])
+    ->middleware('auth:api');

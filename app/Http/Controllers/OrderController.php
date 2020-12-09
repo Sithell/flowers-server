@@ -9,37 +9,41 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function create(Request $request) {
-        $user_id = $request->user()->id;
-        $payment_method = $request->input('payment_method');
-        $order_items = $request->input('items');
-
+    public function create(Request $request)
+    {
         $order = new Order();
-        $order->user_id = $user_id;
-        $order->payment_method = $payment_method;
-        $price = 0;
+
+        $order->user_id = $request->user()->id;
+        $order->payment_method = $request->input('payment_method');
+        $order->change = $request->input('change');
+        $order->address = $request->input('address');
+        $order->contact_phone = $request->input('contact_phone');
+        $order->deliver_by = $request->input('deliver_by');
+
+
         $order->save();
-//        foreach ($order_items as $product_id) {
-////            $price += Product::where('id', '=', $product_id)->first()->price;
-//
-//            if (Product::where('id', '=', $product_id)->count() == 0) {
-//                return "No product found with such id";
-//            }
-//            $item = new OrderItem();
-//            $item->product_id = $product_id;
-//            $item->order_id = $order->getNextId();
-//            $item->save();
-//        }
+
+        $price = 0;
+        $order_items = $request->input('items');
         foreach ($order_items as $order_item) {
-            $price += Product::where('id', '=', $order_item)->first()->price;
+            $product = Product::where('id', '=', $order_item['product_id'])->first();
+            if ($product->left_in_stock < $order_item['quantity']) {
+                return "Sorry, ".$product->name." is out of stock";
+            }
+            $product->left_in_stock -= $order_item['quantity'];
+            $product->save();
+
+            $price += $product->price;
+
             $item = new OrderItem();
-            $item->product_id = $order_item;
+            $item->product_id = $order_item['product_id'];
             $item->order_id = $order->id;
+            $item->quantity = $order_item['quantity'];
             $item->save();
         }
         $order->price = $price;
         $order->save();
 
-        return "Created new order".$price." with id=".$order->id;
+        return "Created new order, price: ".$price." id: ".$order->id;
     }
 }

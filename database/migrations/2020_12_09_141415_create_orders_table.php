@@ -19,6 +19,10 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('price')->nullable();
             $table->string('payment_method');
+            $table->string('address');
+            $table->string('contact_phone');
+            $table->string('deliver_by');
+            $table->integer('change')->unsigned();
             $table->timestamps();
         });
     }

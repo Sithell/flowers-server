@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ApiAuthorization extends Migration
+class CreateFavouritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class ApiAuthorization extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('api_token', 80)->after('name')
-                ->unique()
-                ->nullable()
-                ->default(null);
+        Schema::create('favourites', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id');
         });
     }
 
@@ -28,8 +28,6 @@ class ApiAuthorization extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('api_token');
-        });
+        Schema::dropIfExists('favourites');
     }
 }

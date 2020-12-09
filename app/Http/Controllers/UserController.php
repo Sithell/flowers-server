@@ -18,6 +18,7 @@ class UserController extends Controller
         $code = random_int(1111, 9999);
         $user->verification_code = $code;
         $user->save();
+        return $code;
         // TODO send verification code via SMS
     }
 

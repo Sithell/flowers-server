@@ -20,6 +20,10 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->string('category');
             $table->text('description');
+            $table->integer('left_in_stock')->unsigned();
+            $table->string('size')->default('medium');
+            $table->integer('times_bought')->unsigned()->default(0);
+            $table->integer('times_liked')->unsigned()->default(0);
         });
     }
 

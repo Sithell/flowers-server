@@ -17,12 +17,4 @@ class Order extends Model
     public function orderItems() {
         return $this->hasMany(OrderItem::class);
     }
-
-    public function getNextId()
-    {
-
-        $statement = DB::select("show table status like 'orders'");
-
-        return $statement[0]->Auto_increment;
-    }
 }

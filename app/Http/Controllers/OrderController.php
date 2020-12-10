@@ -46,4 +46,9 @@ class OrderController extends Controller
 
         return "Created new order, price: ".$price." id: ".$order->id;
     }
+
+    public function show(Request $request) {
+        $user_id = $request->user()->id;
+        return Order::where('user_id', '=', $user_id)->get();
+    }
 }

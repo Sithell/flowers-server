@@ -28,4 +28,15 @@ class FavouriteController extends Controller
 
         return "Товар с id: ".$product_id." добавлен в избранное";
     }
+
+    public function show(Request $request) {
+        $user_id = $request->user()->id;
+        $result = array();
+        $favourites = Favourite::where('user_id', '=', $user_id)->get();
+        foreach ($favourites as $favourite) {
+            $product = Product::where('id', '=', $favourite->product_id)->first();
+            array_push($result, $product);
+        }
+        return $result;
+    }
 }

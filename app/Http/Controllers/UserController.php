@@ -35,4 +35,15 @@ class UserController extends Controller
         }
         return "Invalid verification code";
     }
+
+    public function update(Request $request) {
+        $user = User::where('id', '=', $request->user()->id)->first();
+        $user->phone_number = $request->input('phone_number', $user->phone_number);
+        $user->name = $request->input('name', $user->name);
+        $user->address = $request->input('address', $user->address);
+        $user->contact_number = $request->input('contact_number', $user->contact_number);
+        $user->avatar = $request->input('avatar', $user->avatar);
+        $user->save();
+        return $user;
+    }
 }

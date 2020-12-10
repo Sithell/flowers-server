@@ -24,6 +24,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/auth', [\App\Http\Controllers\UserController::class, 'create']);
 Route::get('/get-token', [\App\Http\Controllers\UserController::class, 'confirm']);
+Route::post('/update-record', [\App\Http\Controllers\UserController::class, 'update'])
+    ->middleware('auth:api');
 
 Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
 Route::get('/product', [\App\Http\Controllers\ProductController::class, 'show']);

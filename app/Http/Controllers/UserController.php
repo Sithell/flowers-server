@@ -37,7 +37,7 @@ class UserController extends Controller
     }
 
     public function update(Request $request) {
-        $user = User::where('id', '=', $request->user()->id)->first();
+        $user = User::find($request->user()->id);
         $user->phone_number = $request->input('phone_number', $user->phone_number);
         $user->name = $request->input('name', $user->name);
         $user->address = $request->input('address', $user->address);

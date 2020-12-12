@@ -27,7 +27,7 @@ class OrderController extends Controller
         foreach ($order_items as $order_item) {
             $product = Product::where('id', '=', $order_item['product_id'])->first();
             if ($product->left_in_stock < $order_item['quantity']) {
-                return $this->jsonResponse("Sorry, ".$product->name." is out of stock");
+                return $this->jsonResponse([], 403, "Sorry, ".$product->name." is out of stock");
             }
             $product->left_in_stock -= $order_item['quantity'];
             $product->times_bought++;
@@ -44,7 +44,7 @@ class OrderController extends Controller
         $order->price = $price;
         $order->save();
 
-        return $this->jsonResponse("Created new order, price: ".$price." id: ".$order->id);
+        return $this->jsonResponse($order, 201);
     }
 
     public function show(Request $request) {

@@ -11,9 +11,16 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function jsonResponse($data, $code = 200)
+    protected function jsonResponse($data, $code=200, $mess=null)
     {
-        return response()->json($data, $code,
+        if (is_null($mess)) {
+            return response()->json(
+                $data, $code,
+                ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+        return response()->json(
+            ['error' => $mess] + $data, $code,
             ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 }

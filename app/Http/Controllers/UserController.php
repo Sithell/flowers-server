@@ -18,7 +18,7 @@ class UserController extends Controller
         $code = random_int(1111, 9999);
         $user->verification_code = $code;
         $user->save();
-        return $this->jsonResponse($code);
+        return $this->jsonResponse(['verification_code' => $code]);
         // TODO send verification code via SMS
     }
 
@@ -31,9 +31,9 @@ class UserController extends Controller
             $user->api_token = $token;
             $user->verification_code = null;
             $user->save();
-            return $this->jsonResponse($token);
+            return $this->jsonResponse(['token' => $token], 201);
         }
-        return $this->jsonResponse("Invalid verification code");
+        return $this->jsonResponse([], 401, "Неверный код подтверждения");
     }
 
     public function update(Request $request) {

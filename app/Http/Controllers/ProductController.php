@@ -31,12 +31,12 @@ ProductController extends Controller
         if ($request->has('size')) {
             $query->where('size', '=', $request->input('size'));
         }
-        return $query->simplePaginate($per_page);
+        return $this->jsonResponse($query->simplePaginate($per_page));
     }
 
     public function show(Request $request)
     {
         $id = $request->query('id');
-        return Product::where('id', '=', $id)->first();
+        return $this->jsonResponse(Product::where('id', '=', $id)->first());
     }
 }

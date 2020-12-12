@@ -15,7 +15,7 @@ class FavouriteController extends Controller
                 ['user_id', '=', $user_id],
                 ['product_id', '=', $product_id],
             ])->count() > 0) {
-            return "Этот товар уже добавлен в избранное";
+            return $this->jsonResponse("Этот товар уже добавлен в избранное");
         }
         $favourite = new Favourite();
         $favourite->user_id = $user_id;
@@ -26,7 +26,7 @@ class FavouriteController extends Controller
         $product->times_liked++;
         $product->save();
 
-        return "Товар с id: ".$product_id." добавлен в избранное";
+        return $this->jsonResponse("Товар с id: ".$product_id." добавлен в избранное");
     }
 
     public function show(Request $request) {
@@ -37,6 +37,6 @@ class FavouriteController extends Controller
             $product = Product::where('id', '=', $favourite->product_id)->first();
             array_push($result, $product);
         }
-        return $result;
+        return $this->jsonResponse($result);
     }
 }

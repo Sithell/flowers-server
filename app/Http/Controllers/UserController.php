@@ -18,7 +18,7 @@ class UserController extends Controller
         $code = random_int(1111, 9999);
         $user->verification_code = $code;
         $user->save();
-        return $code;
+        return $this->jsonResponse($code);
         // TODO send verification code via SMS
     }
 
@@ -31,9 +31,9 @@ class UserController extends Controller
             $user->api_token = $token;
             $user->verification_code = null;
             $user->save();
-            return $token;
+            return $this->jsonResponse($token);
         }
-        return "Invalid verification code";
+        return $this->jsonResponse("Invalid verification code");
     }
 
     public function update(Request $request) {
@@ -44,6 +44,10 @@ class UserController extends Controller
         $user->contact_number = $request->input('contact_number', $user->contact_number);
         $user->avatar = $request->input('avatar', $user->avatar);
         $user->save();
-        return $user;
+        return $this->jsonResponse($user);
+    }
+
+    public function show(Request $request) {
+        return $this->jsonResponse(User::find($request->user()->id));
     }
 }

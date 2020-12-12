@@ -18,13 +18,11 @@ Route::get('/unauthorized', function (Request $request) {
     return "Invalid token";
 })->name('unauthorized');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('/auth', [\App\Http\Controllers\UserController::class, 'create']);
 Route::get('/get-token', [\App\Http\Controllers\UserController::class, 'confirm']);
 Route::post('/update-record', [\App\Http\Controllers\UserController::class, 'update'])
+    ->middleware('auth:api');
+Route::get('/user', [\App\Http\Controllers\UserController::class, 'show'])
     ->middleware('auth:api');
 
 Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);

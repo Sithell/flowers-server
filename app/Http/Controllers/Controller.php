@@ -23,4 +23,12 @@ class Controller extends BaseController
             ['error' => $mess] + $data, $code,
             ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
+
+    protected function isPhoneNumberValid($phone_number) {
+        return is_numeric($phone_number) && strlen($phone_number) == 11;
+    }
+
+    protected function isVerificationCodeValid($verification_code) {
+        return is_numeric($verification_code) && strlen($verification_code) == 4;
+    }
 }

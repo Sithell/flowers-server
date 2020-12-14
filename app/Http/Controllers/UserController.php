@@ -10,6 +10,10 @@ class UserController extends Controller
 {
     public function create(Request $request) {
         $phone_number = $request->input('phone_number');
+        if (!$this->isPhoneNumberValid($phone_number)) {
+            return $this->jsonResponse([], 400, "Некорректный номер телефона");
+        }
+
         $user = User::where('phone_number', '=', $phone_number)->first();
         if (is_null($user)) {
             $user = new User();
@@ -24,8 +28,18 @@ class UserController extends Controller
 
     public function confirm(Request $request) {
         $phone_number = $request->input('phone_number');
+        if (!$this->isPhoneNumberValid($phone_number)) {
+            return $this->jsonResponse([], 400, "Некорректный номер телефона");
+        }
         $code = $request->input('verification_code');
+        if (!$this->isPhoneNumberValid($phone_number)) {
+            return $this->jsonResponse([], 400, "Неверный формат кода подтверждения");
+        }
         $user = User::where('phone_number', '=', $phone_number)->first();
+        if (is_null($user)) {
+            return $this->jsonResponse([], 404, "Нет пользователя с таким номером телефона");
+        }
+
         if ($user->verification_code == $code) {
             $token = Str::random(60);
             $user->api_token = $token;
@@ -33,7 +47,7 @@ class UserController extends Controller
             $user->save();
             return $this->jsonResponse(['token' => $token], 201);
         }
-        return $this->jsonResponse([], 401, "Неверный код подтверждения");
+        return $this->jsonResponse([], 403, "Неверный код подтверждения");
     }
 
     public function update(Request $request) {

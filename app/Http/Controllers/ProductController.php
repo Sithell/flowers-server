@@ -31,6 +31,13 @@ ProductController extends Controller
         if ($request->has('size')) {
             $query->where('size', '=', $request->input('size'));
         }
+        if ($request->has('tab')) {
+            $tab = mb_strtolower($request->input('tab'));
+            if ($tab != 'букеты' && $tab != 'цветы') {
+                return $this->jsonResponse([], 400, "Некорректный параметр tab");
+            }
+            $query->where('tab', '=', $request->input('tab'));
+        }
         return $this->jsonResponse($query->simplePaginate($per_page));
     }
 

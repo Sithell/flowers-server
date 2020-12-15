@@ -17,12 +17,19 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('price')->nullable();
-            $table->string('payment_method');
+            $table->unsignedInteger('price')->nullable();
+            $table->string('city');
             $table->string('address');
-            $table->string('contact_phone');
-            $table->string('deliver_by');
-            $table->integer('change')->unsigned();
+            $table->dateTime('deliver_by')->nullable();
+            $table->unsignedInteger('change')->nullable();
+            $table->string('payment_method');
+            $table->boolean('for_yourself')->default(true);
+            $table->string('sender_name')->nullable();
+            $table->string('sender_phone')->nullable();
+            $table->boolean('postcard')->default(false);
+            $table->text('postcard_text')->nullable();
+            $table->string('receiver_name');
+            $table->string('receiver_phone');
             $table->timestamps();
         });
     }

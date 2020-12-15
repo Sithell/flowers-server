@@ -17,7 +17,14 @@ class OrderController extends Controller
         $order->payment_method = $request->input('payment_method');
         $order->change = $request->input('change');
         $order->address = $request->input('address');
+        $order->receiver_name = $request->input('receiver_name');
         $order->contact_phone = $request->input('contact_phone');
+        $order->postcard = $request->input('postcard');
+        if ($order->postcard && !$request->has('postcard_text')) {
+            return $this->jsonResponse([], 400, "Не указан текст открытки");
+        }
+        $order->postcard = $request->input('postcard', "");
+
         $order->deliver_by = $request->input('deliver_by');
 
         $order->save();

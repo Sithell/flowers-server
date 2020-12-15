@@ -22,7 +22,8 @@ class UserController extends Controller
         $code = random_int(1111, 9999);
         $user->verification_code = $code;
         $user->save();
-        return $this->jsonResponse(['verification_code' => $code]);
+        $this->sendMessage("Код подтверждения для ".$phone_number.": ".$code);
+        return $this->jsonResponse(['mess' => "Код подтверждения выслан в смс"]);
         // TODO send verification code via SMS
     }
 

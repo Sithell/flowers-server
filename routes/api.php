@@ -37,3 +37,5 @@ Route::post('/add-to-favourites', [\App\Http\Controllers\FavouriteController::cl
     ->middleware('auth:api');
 Route::get('/get-favourites', [\App\Http\Controllers\FavouriteController::class, 'show'])
     ->middleware('auth:api');
+
+Route::get('/city', [\App\Http\Controllers\CityController::class, 'index']);

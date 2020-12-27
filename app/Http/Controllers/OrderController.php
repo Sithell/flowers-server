@@ -24,7 +24,7 @@ class OrderController extends Controller
         $order->sender_phone = $request->input('sender_phone', null);
         $order->postcard = $request->input('postcard', false);
         if ($order->postcard && !$request->has('postcard_text')) {
-            return $this->jsonResponse([], 400, "Не указан текст открытки");
+            return $this::jsonResponse([], 400, "Не указан текст открытки");
         }
         $order->postcard_text = $request->input('postcard_text', null);
         $order->receiver_name = $request->input('receiver_name');
@@ -37,7 +37,7 @@ class OrderController extends Controller
         foreach ($order_items as $order_item) {
             $product = Product::find($order_item['product_id']);
             if ($product->left_in_stock < $order_item['quantity']) {
-                return $this->jsonResponse([], 403, "Sorry, ".$product->name." is out of stock");
+                return $this::jsonResponse([], 403, "Sorry, ".$product->name." is out of stock");
             }
             $product->left_in_stock -= $order_item['quantity'];
             $product->times_bought++;
@@ -54,11 +54,11 @@ class OrderController extends Controller
         $order->price = $price;
         $order->save();
 
-        return $this->jsonResponse($order, 201);
+        return $this::jsonResponse($order, 201);
     }
 
     public function show(Request $request) {
         $user_id = $request->user()->id;
-        return $this->jsonResponse(Order::find($user_id));
+        return $this::jsonResponse(Order::find($user_id));
     }
 }

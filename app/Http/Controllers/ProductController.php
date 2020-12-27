@@ -34,16 +34,16 @@ ProductController extends Controller
         if ($request->has('tab')) {
             $tab = mb_strtolower($request->input('tab'));
             if ($tab != 'букеты' && $tab != 'цветы') {
-                return $this->jsonResponse([], 400, "Некорректный параметр tab");
+                return $this::jsonResponse([], 400, "Некорректный параметр tab");
             }
             $query->where('tab', '=', $request->input('tab'));
         }
-        return $this->jsonResponse($query->simplePaginate($per_page));
+        return $this::jsonResponse($query->simplePaginate($per_page));
     }
 
     public function show(Request $request)
     {
         $id = $request->query('id');
-        return $this->jsonResponse(Product::where('id', '=', $id)->first());
+        return $this::jsonResponse(Product::where('id', '=', $id)->first());
     }
 }

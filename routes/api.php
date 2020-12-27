@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/unauthorized', function (Request $request) {
-    return "Invalid token";
+    return Controller::jsonResponse([], 401, "Invalid token");
 })->name('unauthorized');
 
 Route::post('/auth', [\App\Http\Controllers\UserController::class, 'create']);

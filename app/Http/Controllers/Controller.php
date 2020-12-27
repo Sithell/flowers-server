@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function jsonResponse($data, $code=200, $mess=null)
+    public static function jsonResponse($data, $code=200, $mess=null)
     {
         if (is_null($mess)) {
             return response()->json(

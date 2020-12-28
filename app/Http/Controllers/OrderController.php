@@ -59,6 +59,6 @@ class OrderController extends Controller
 
     public function show(Request $request) {
         $user_id = $request->user()->id;
-        return $this::jsonResponse(Order::find($user_id));
+        return $this::jsonResponse(["orders" => Order::where('user_id', '=', $user_id)->get()]);
     }
 }

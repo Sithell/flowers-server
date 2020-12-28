@@ -39,4 +39,15 @@ class FavouriteController extends Controller
         }
         return $this::jsonResponse($result);
     }
+
+    public function delete(Request $request) {
+        $user_id = $request->user()->id;
+        $product_id = $request->input('id');
+        $favourites = Favourite::where([['user_id', '=', $user_id], ['product_id', '=', $product_id]]);
+        if ($favourites->count() == 0) {
+            return $this::jsonResponse([], 404, "No such product in favourites");
+        }
+        $favourites->delete();
+        return $this::jsonResponse(['mess' => "Product $product_id removed from favourites"], 200);
+    }
 }

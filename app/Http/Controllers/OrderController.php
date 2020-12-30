@@ -59,6 +59,15 @@ class OrderController extends Controller
 
     public function show(Request $request) {
         $user_id = $request->user()->id;
-        return $this::jsonResponse(["orders" => Order::where('user_id', '=', $user_id)->get()]);
+        $orders = [];
+        foreach (Order::where('user_id', $user_id)->get() as $order) {
+            $product_ids = OrderItem::select('product_id')->where('order_id', $order->id)->get();
+            $order_items = [];
+            foreach ($product_ids as $id) {
+                array_push($order_items, Product::find($id)->first());
+            }
+            array_push($orders, array_merge($order->toArray(), ["items" => $order_items]));
+        }
+        return $this::jsonResponse(["orders" => $orders]);
     }
 }

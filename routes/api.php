@@ -35,7 +35,7 @@ Route::get('/get-orders', [\App\Http\Controllers\OrderController::class, 'show']
 
 Route::post('/add-to-favourites', [\App\Http\Controllers\FavouriteController::class, 'create'])
     ->middleware('auth:api');
-Route::get('/get-favourite', [\App\Http\Controllers\FavouriteController::class, 'show'])
+Route::get('/get-favourites', [\App\Http\Controllers\FavouriteController::class, 'show'])
     ->middleware('auth:api');
 Route::get('/delete-favourite', [\App\Http\Controllers\FavouriteController::class, 'delete'])
     ->middleware('auth:api');
